@@ -1,0 +1,12 @@
+services:
+  bot-mnamer:
+    build:
+      context: ./bot-net
+      dockerfile: Dockerfile
+    container_name: bot-mnamer
+    restart: unless-stopped
+    env_file:
+      - .env
+    volumes:
+      - C:\Users\chris\Desktop\Projects\mnamer-telegram\appdata/:/data
+      - C:\Users\chris\Desktop\Projects\mnamer-telegram/watch:/data/watch
