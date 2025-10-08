@@ -9,4 +9,3 @@ services:
       - .env
     volumes:
       - C:\Users\chris\Desktop\Projects\mnamer-telegram\appdata/:/data
-      - C:\Users\chris\Desktop\Projects\mnamer-telegram/watch:/data/watch

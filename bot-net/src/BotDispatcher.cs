@@ -21,6 +21,9 @@ public class BotDispatcher
 
         _allowedUser = Convert.ToInt32(Environment.GetEnvironmentVariable("TELEGRAM_AUTH_USER_ID"));
 
+        DirectoryHandler = new DirectoryHandler();
+        MnamerHandler = new MnamerHandler(DirectoryHandler);
+        
         _commandHandler = new CommandHandler(this);
         _messageHandler = new MessageHandler(Bot);
         _callbackQueryHandler = new CallbackQueryHandler(this);
@@ -34,7 +37,8 @@ public class BotDispatcher
     public PendingActionHandler PendingActionHandler { get; }
 
     public PendingFilesHandler PendingFilesHandler { get; } = new();
-    public MnamerHandler MnamerHandler { get; } = new();
+    public DirectoryHandler DirectoryHandler { get; }
+    public MnamerHandler MnamerHandler { get; }
 
     public async Task InitBot()
     {
@@ -64,11 +68,10 @@ public class BotDispatcher
         {
             if (msg.Text.StartsWith('/'))
                 await _commandHandler.Handle(msg, type);
+            else if (PendingActionHandler.HasPendingAction())
+                await PendingActionHandler.Handle(msg, type);
             else
-                if (PendingActionHandler.HasPendingAction())
-                    await PendingActionHandler.Handle(msg, type);
-                else
-                    await _messageHandler.Handle(msg, type);
+                await _messageHandler.Handle(msg, type);
         }
     }
 

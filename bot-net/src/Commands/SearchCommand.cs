@@ -1,9 +1,8 @@
-﻿using System.Diagnostics;
-using System.Text;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 using Bot.CallbackQueries.Callbacks;
 using Bot.Handlers;
 using Bot.Utils;
+using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
 using Message = WTelegram.Types.Message;
@@ -13,8 +12,8 @@ namespace Bot.Commands;
 public class SearchCommand : ICommand
 {
     private readonly WTelegram.Bot _bot;
-    private readonly PendingFilesHandler _pendingFilesHandler;
     private readonly MnamerHandler _mnamer;
+    private readonly PendingFilesHandler _pendingFilesHandler;
 
     public SearchCommand(WTelegram.Bot bot, PendingFilesHandler pendingFilesHandler, MnamerHandler mnamerHandler)
     {
@@ -31,11 +30,13 @@ public class SearchCommand : ICommand
             .Where(f => validExtensions.Any(ext => f.EndsWith(ext, StringComparison.OrdinalIgnoreCase)))
             .ToList();
         const string movieFormat = "MOVIE__SEP__{id_tmdb}__SEP__{name}__SEP__{year}";
-        const string showFormat = "SHOW__SEP__{id_tvdb}__SEP__{series}__SEP__{season}__SEP__{episode}__SEP__{title}__SEP__{date}";
+        const string showFormat =
+            "SHOW__SEP__{id_tvdb}__SEP__{series}__SEP__{season}__SEP__{episode}__SEP__{title}__SEP__{date}";
 
         foreach (var file in files)
         {
-            var arguments = $"--test --batch --no-style --language spa --movie-format \"{movieFormat}\" --episode-format \"{showFormat}\" --episode-api tvdb \"{file}\"";
+            var arguments =
+                $"--test --batch --no-style --language {_mnamer.Language} --movie-format \"{movieFormat}\" --episode-format \"{showFormat}\" --episode-api tvdb \"{file}\"";
             var output = await _mnamer.ExecuteMnamer(arguments);
 
             var match = Regex.Match(output, "moving to .+/(.+)$", RegexOptions.Multiline);
@@ -55,6 +56,7 @@ public class SearchCommand : ICommand
 
 
                 await _bot.SendMessage(msg.Chat.Id, message, ParseMode.MarkdownV2,
+                    linkPreviewOptions: new LinkPreviewOptions { ShowAboveText = true },
                     replyMarkup: new[]
                     {
                         new[]
@@ -112,6 +114,7 @@ Do you want to move to the movies folder?";
             $"Episode: tvdb({tvdbId}) | series({series}) | season({season}) | episode({episode}) | title({title}) | date({date})");
 
         // Why tvdb, why you cannot link directly with the id?
+        // TODO: Include TVDB library to get link to thetvdb directly
         if (!string.IsNullOrEmpty(tvdbId))
             return @$"New {Icons.TvIcon}Episode found '{file}'
 
