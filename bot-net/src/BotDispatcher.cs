@@ -1,5 +1,6 @@
 ﻿using Bot.Handlers;
 using Bot.Utils;
+using Bot.Commands;
 using Telegram.Bot.Polling;
 using Telegram.Bot.Types.Enums;
 using Message = WTelegram.Types.Message;
@@ -15,8 +16,6 @@ public class BotDispatcher
     private readonly MessageHandler _messageHandler;
     
     public int AllowedUser { get; }
-    
-    public NewFileHandler NewFileHandler { get; }
 
     public BotDispatcher(WTelegram.Bot bot, TaskQueue queue)
     {
@@ -27,9 +26,12 @@ public class BotDispatcher
 
         DirectoryHandler = new DirectoryHandler();
         MnamerHandler = new MnamerHandler(DirectoryHandler);
+        PendingFilesHandler = new PendingFilesHandler();
         NewFileHandler = new NewFileHandler(MnamerHandler, bot, PendingFilesHandler, AllowedUser);
+        BatchHandler = new BatchHandler(bot, DirectoryHandler, MnamerHandler, PendingFilesHandler, AllowedUser);
         
         _commandHandler = new CommandHandler(this);
+        
         _messageHandler = new MessageHandler(this);
         _callbackQueryHandler = new CallbackQueryHandler(this);
         PendingActionHandler = new PendingActionHandler(Bot);
@@ -41,9 +43,11 @@ public class BotDispatcher
 
     public PendingActionHandler PendingActionHandler { get; }
 
-    public PendingFilesHandler PendingFilesHandler { get; } = new();
+    public PendingFilesHandler PendingFilesHandler { get; }
     public DirectoryHandler DirectoryHandler { get; }
     public MnamerHandler MnamerHandler { get; }
+    public NewFileHandler NewFileHandler { get; }
+    public BatchHandler BatchHandler { get; }
 
     public async Task InitBot()
     {

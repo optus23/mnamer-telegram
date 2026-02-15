@@ -18,7 +18,8 @@ public class CommandHandler
         {
             new StartCommand(bot.Bot),
             new SearchCommand(bot.NewFileHandler, bot.DirectoryHandler),
-            new CheckConfigCommand(bot.Bot, bot.DirectoryHandler, bot.MnamerHandler)
+            new CheckConfigCommand(bot.Bot, bot.DirectoryHandler, bot.MnamerHandler),
+            new BatchCommand(bot.BatchHandler)
         };
 
         commands = commands.Append(new HelpCommand(bot.Bot, commands)).ToArray();

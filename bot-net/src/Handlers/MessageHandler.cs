@@ -18,6 +18,7 @@ public class MessageHandler
         if (msg.ReplyToMessage != null)
         {
             await _botDispatcher.NewFileHandler.HandleReply(msg.ReplyToMessage.Id, msg.Text);
+            await _botDispatcher.BatchHandler.HandleReply(msg.ReplyToMessage.Id, msg.Text);
         }
     }
 }
