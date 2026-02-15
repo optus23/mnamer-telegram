@@ -57,7 +57,7 @@ public class DirectoryHandler
                 foreach (var entry in entries.Take(5)) // limit to first 5 entries
                 {
                     var name = Path.GetFileName(entry);
-                    sb.AppendLine($" │  • {name}");
+                    sb.AppendLine($" │  • `{name}`");
                 }
 
                 if (entries.Length > 5)
@@ -70,7 +70,7 @@ public class DirectoryHandler
         }
         catch (Exception ex)
         {
-            sb.AppendLine($"❌ {label}: `{path}` *(not writable — {ex.Message})*");
+            sb.AppendLine($"❌ {label}: `{path}` *(not writable — `{ex.Message}`)*");
         }
     }
 
