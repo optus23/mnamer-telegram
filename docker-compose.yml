@@ -10,4 +10,4 @@ services:
     user: "${PUID:-1000}:${PGID:-1000}"
     volumes:
       - ./appdata:/data
-      - /mnt/disco:/media
+      - ./media:/media
