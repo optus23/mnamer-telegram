@@ -4,6 +4,12 @@ A Telegram bot to automate the organization of your media library using the powe
 
 ![Screenshot Start](./docs/HelpAndStartCommand.png)
 
+> [!WARNING]  
+> **Disclaimer:** This tool handles file movements and renaming. I am **not responsible for any data loss** or files being moved to incorrect locations. It is highly recommended to perform a test with dummy files or a backup before running it on your primary library.
+
+> [!IMPORTANT]  
+> **Configuration Complexity:** Setting up Docker volumes and environment variables correctly can be complex depending on your OS and permissions. If you encounter any issues or have questions, please **open an issue** in this repository.
+
 ## Features
 
 - **📂 Watch Folder Monitoring**: Automatically detects new video files in your configured download directory.
@@ -13,7 +19,7 @@ A Telegram bot to automate the organization of your media library using the powe
     - **Approve Moves**: One-click confirmation to move files.
     - **Manual Correction**: Reply with `tmdb <id>` or `tvdb <id>` if the detection is wrong.
 
-![Screenshot Batch](./docs/ExampleRename.png)
+![Screenshot Scan](./docs/ExampleRename.png)
 
 ## Setup & Deployment
 
@@ -85,10 +91,18 @@ View logs:
 docker-compose logs -f
 ```
 
+## ⚠️ Known Limitations & Docker Compatibility
+
+The real-time folder monitoring (`FileSystemWatcher`) is primarily designed and tested for **Linux hosts**.
+
+If you are running Docker on **Windows or macOS**, file system events from the host might not propagate to the container due to how Docker handles volume mounts (gRPC FUSE/VirtioFS). In these environments, the bot may not detect new files automatically.
+- **Workaround**: Use the `/search` command to trigger a manual scan of the watch folder.
+- **Technical Details**: Read more about [File System Watch issues on Docker mounts](https://forums.docker.com/t/file-system-watch-does-not-work-with-mounted-volumes/12038/18).
+
 ## Usage
 
 1.  **Automatic**: The bot watches `/downloads` (mapped path). When a video file is detected, it will message you on Telegram.
-2.  **Batch**: Send `/batch` to the bot to scan the watch folder for existing files.
+2.  **Scan**: Send `/search` to the bot to scan the watch folder for existing files.
 3.  **Corrections**: Reply to any message with `tmdb <id>` or `tvdb <id>` to force a match.
 
 ## Contributions
