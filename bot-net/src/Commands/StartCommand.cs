@@ -21,6 +21,8 @@ I am currently watching for new media files. 🎬📺
 ⚠️ *Before using any move or rename commands*, please make sure your directories are configured correctly.
 👉 Use the command /checkconfig to verify your setup.
 
+I will be scanning the watch folder for new media files. You can also use the /search command to manually trigger a scan. When I find one, I'll try to identify it and send you a message with the details. If I can't identify it, I'll let you know and you can help me out by providing the correct information. If I am wrong, you can also correct me by replying to the message with the correct ID using [TMDb](https://www.themoviedb.org) for movies and [TheTVDB](https://thetvdb.com) for TV shows.
+
 Use `/help` for a list of available commands.
 
 —

@@ -61,7 +61,7 @@ To get your `TELEGRAM_API_ID` and `TELEGRAM_API_HASH`:
     ```
 3.  **Review `docker-compose.yml`** (an example file is included in the repository):
     
-    > **⚡ Performance Tip**: Map a single volume (e.g., `/mnt/data:/media`) containing both your downloads and library folders. This allows the bot to "move" files instantly (atomic move) instead of copying them between drives.
+    > **Performance Tip**: Map a single volume (e.g., `/mnt/data:/media`) containing both your downloads and library folders. This allows the bot to "move" files instantly (atomic move) instead of copying them between drives.
 
     ```yaml
     services:
