@@ -1,5 +1,11 @@
 # mnamer-telegram
 
+[![Docker Image Version (latest semver)](https://img.shields.io/docker/v/christt105/mnamer-telegram?label=Docker)](https://hub.docker.com/r/christt105/mnamer-telegram)
+[![GitHub stars](https://img.shields.io/github/stars/christt105/mnamer-telegram?style=social)](https://github.com/christt105/mnamer-telegram)
+
+- **GitHub Repository**: [https://github.com/christt105/mnamer-telegram](https://github.com/christt105/mnamer-telegram)
+- **Docker Image**: [christt105/mnamer-telegram](https://hub.docker.com/r/christt105/mnamer-telegram)
+
 A Telegram bot to automate the organization of your media library using the powerful [mnamer](https://github.com/jkwill87/mnamer) tool.
 
 ![Screenshot Start](./docs/HelpAndStartCommand.png)
@@ -83,7 +89,16 @@ To get your `TELEGRAM_API_ID` and `TELEGRAM_API_HASH`:
 
 ### Running
 
-Start the bot container:
+> [!WARNING]  
+> **If you run the container as a non-root user (using `PUID` and `PGID`):** Ensure the mapped directories (like `./appdata` and your media folders) already exist on your host system **before** starting the container. If Docker creates them automatically, they will be owned by `root`, causing the bot to silently fail due to database permission errors. The bot will **not** send an error message to Telegram in this case; you will only see `SQLite Error 14` or permission denied errors if you check the container logs.
+
+1. **Create the data directory** (and ensure it has correct permissions for your PUID/PGID):
+
+```bash
+mkdir -p ./appdata
+```
+
+2. **Start the bot container:**
 
 ```bash
 docker compose up -d
