@@ -14,7 +14,7 @@ public class BotDispatcher
 
     private readonly MessageHandler _messageHandler;
     
-    public int AllowedUser { get; }
+    public long AllowedUser { get; }
     
     public NewFileHandler NewFileHandler { get; }
 
@@ -23,7 +23,7 @@ public class BotDispatcher
         Bot = bot;
         Queue = queue;
 
-        AllowedUser = Convert.ToInt32(Environment.GetEnvironmentVariable("TELEGRAM_AUTH_USER_ID"));
+        AllowedUser = Convert.ToInt64(Environment.GetEnvironmentVariable("TELEGRAM_AUTH_USER_ID"));
 
         DirectoryHandler = new DirectoryHandler();
         MnamerHandler = new MnamerHandler(DirectoryHandler);
