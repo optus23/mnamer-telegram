@@ -67,8 +67,8 @@ To get your `TELEGRAM_API_ID` and `TELEGRAM_API_HASH`:
 | SHOWS_DIR | Shows output folder | `/data/shows` (in code) |
 | MOVIE_FORMAT | Movie filename format string for mnamer | `{name} ({year}){extension}` |
 | EPISODES_FORMAT | Episode filename format string for mnamer | `{series} S{season:02}E{episode:02}{extension}` |
-| MOVIE_DIRECTORY | Movie output directory template | `${dirHandler.MoviesDirectory}/{name} ({year}) [tmdbid-{id_tmdb}]` |
-| EPISODE_DIRECTORY | Episode output directory template | `${dirHandler.ShowsDirectory}/{series} [tvdbid-{id_tvdb}]/Season {season:02}` |
+| MOVIE_DIRECTORY | Movie output directory template (relative to `MOVIES_DIR`) | `{name} ({year}) [tmdbid-{id_tmdb}]` |
+| EPISODE_DIRECTORY | Episode output directory template (relative to `SHOWS_DIR`) | `{series} [tvdbid-{id_tvdb}]/Season {season:02}` |
 | LANGUAGE | mnamer/movie language code | `en` 
 
 3.  **Review `docker-compose.yml`** (an example file is included in the repository):

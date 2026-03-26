@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.IO;
 using System.Text;
 
 namespace Bot.Handlers;
@@ -19,10 +20,13 @@ public class MnamerHandler
         EpisodeFormat = Environment.GetEnvironmentVariable("EPISODES_FORMAT") ??
                         "{series} S{season:02}E{episode:02}{extension}";
 
-        MovieDirectoryFormat = Environment.GetEnvironmentVariable("MOVIE_DIRECTORY") ??
-                         $"{dirHandler.MoviesDirectory}/{{name}} ({{year}}) [tmdbid-{{id_tmdb}}]";
-        EpisodeDirectoryFormat = Environment.GetEnvironmentVariable("EPISODE_DIRECTORY") ??
-                           $"{dirHandler.ShowsDirectory}/{{series}} [tvdbid-{{id_tvdb}}]/Season {{season:02}}";
+        var movieDirSuffix = Environment.GetEnvironmentVariable("MOVIE_DIRECTORY") ??
+                             "{name} ({year}) [tmdbid-{id_tmdb}]";
+        MovieDirectoryFormat = Path.Combine(dirHandler.MoviesDirectory, movieDirSuffix);
+
+        var episodeDirSuffix = Environment.GetEnvironmentVariable("EPISODE_DIRECTORY") ??
+                               "{series} [tvdbid-{id_tvdb}]/Season {season:02}";
+        EpisodeDirectoryFormat = Path.Combine(dirHandler.ShowsDirectory, episodeDirSuffix);
         
         Language = Environment.GetEnvironmentVariable("LANGUAGE") ?? "en";
         
