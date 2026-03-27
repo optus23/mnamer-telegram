@@ -1,6 +1,7 @@
 ﻿using Bot.Handlers;
 using Bot.Utils;
 using Telegram.Bot.Polling;
+using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Message = WTelegram.Types.Message;
 using Update = WTelegram.Types.Update;
@@ -14,7 +15,7 @@ public class BotDispatcher
 
     private readonly MessageHandler _messageHandler;
     
-    public long AllowedUser { get; }
+    public ChatId AllowedUser { get; }
     
     public NewFileHandler NewFileHandler { get; }
 
